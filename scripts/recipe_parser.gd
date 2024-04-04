@@ -4,6 +4,7 @@ signal parser_completed
 
 @export var http: HTTPRequest
 @export var recipe_panel: RecipePanel
+@export var components_table: ComponentsTable
 
 var base_url := "https://l2.dropspoil.com/"
 var recipe_path := "db/recipe/6887/recipe-angel-slayer.html"
@@ -54,6 +55,8 @@ func _on_request_completed(result: int, response_code: int, headers: PackedStrin
 					recipe = parse_recipe(n)
 					await parser_completed
 					recipe_panel.update_recipe_tree(recipe)
+					recipe.update_components()
+					components_table.update_table(recipe)
 					return
 
 func parse_recipe(table: XMLNode) -> Recipe:

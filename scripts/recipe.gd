@@ -8,7 +8,10 @@ var unique_components: Array[Item]
 
 func add_item(item: Item):
 	itens.append(item)
-	add_component(item)
+
+func update_components():
+	for i in itens:
+		add_component(i)
 
 func add_component(item: Item):
 	var found := false
@@ -20,6 +23,7 @@ func add_component(item: Item):
 		var new_comp = Item.new()
 		new_comp.name = item.name
 		new_comp.qty = item.get_total_required()
+		new_comp.icon = item.icon
 		unique_components.append(new_comp)
 	
 	for child in item.children:

@@ -7,11 +7,14 @@ var icon: Texture2D = preload("res://icon.svg")
 
 func update_recipe_tree(recipe: Recipe) -> void:
 	tree.set_column_expand(0, false)
-	tree.set_column_expand(1, false)
+	tree.set_column_expand(1, true)
 	tree.set_column_expand(2, false)
 	tree.set_column_title(0, "Icon")
+	tree.set_column_title_alignment(0, HORIZONTAL_ALIGNMENT_LEFT)
 	tree.set_column_title(1, "Name")
+	tree.set_column_title_alignment(1, HORIZONTAL_ALIGNMENT_LEFT)
 	tree.set_column_title(2, "Total Required")
+	tree.set_column_title_alignment(2, HORIZONTAL_ALIGNMENT_RIGHT)
 	var root = tree.create_item()
 	tree.hide_root = true
 	
