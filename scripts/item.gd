@@ -5,6 +5,7 @@ var name: String
 var qty: int
 var parent: Item
 var img_url: String
+var icon: Texture2D
 var children: Array[Item]
 
 func get_total_required() -> int:

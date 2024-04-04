@@ -25,13 +25,8 @@ func add_item(item: Item, tree_parent: TreeItem):
 	tree_item.set_text_alignment(1, HORIZONTAL_ALIGNMENT_LEFT)
 	tree_item.set_text(2, str(item.get_total_required()))
 	tree_item.set_text_alignment(2, HORIZONTAL_ALIGNMENT_RIGHT)
-	tree_item.set_icon(0, icon)
+	tree_item.set_icon(0, item.icon)
 	tree_item.set_icon_max_width(0, 40)
-	
-	var http := HTTPRequest.new()
-	add_child(http)
-	http.request_completed.connect(_on_request_icon_completed.bind(tree_item))
-	http.request(item.img_url)
 	
 	for child in item.children:
 		add_item(child, tree_item)

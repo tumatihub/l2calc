@@ -1,5 +1,7 @@
 extends Node
 
+signal parser_completed
+
 @export var http: HTTPRequest
 @export var recipe_panel: RecipePanel
 
@@ -9,6 +11,7 @@ var url := base_url + recipe_path
 var parser: XMLParser
 var document: XMLDocument
 var recipe: Recipe
+var pending_icon := 0
 
 func _ready() -> void:
 	http.request_completed.connect(_on_request_completed)
@@ -49,6 +52,7 @@ func _on_request_completed(result: int, response_code: int, headers: PackedStrin
 					table_count += 1
 				if table_count == 2:
 					recipe = parse_recipe(n)
+					await parser_completed
 					recipe_panel.update_recipe_tree(recipe)
 					return
 
@@ -79,9 +83,32 @@ func parse_item(item_node: XMLNode, parent: Item = null) -> Item:
 		num = int(li.content)
 	item.name = a.content
 	item.qty = num
+	
+	var http := HTTPRequest.new()
+	add_child(http)
+	http.request_completed.connect(_on_request_icon_completed.bind(item, http))
+	pending_icon += 1
+	http.request(item.img_url)
+	
 	for node in li.children:
 		if node.name == "ul":
 			var child: Item
 			child = parse_item(node, item)
 			item.children.append(child)
 	return item
+
+func _on_request_icon_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray, item: Item, http: HTTPRequest):
+	if result != HTTPRequest.RESULT_SUCCESS:
+		printerr("Error requesting url: " + item.img_url)
+		return
+	var image = Image.new()
+	var err = image.load_png_from_buffer(body)
+	if err != OK:
+		printerr("Error loading PNG")
+	var texture = ImageTexture.new()
+	texture = ImageTexture.create_from_image(image)
+	item.icon = texture
+	pending_icon -= 1
+	if pending_icon == 0:
+		parser_completed.emit()
+	http.queue_free()
