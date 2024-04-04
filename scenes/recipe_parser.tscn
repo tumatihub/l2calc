@@ -1,9 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://cowymypdf1w40"]
+[gd_scene load_steps=3 format=3 uid="uid://cowymypdf1w40"]
 
-[ext_resource type="Script" path="res://scripts/recipe_parser.gd" id="1_eb7jj"]
+[ext_resource type="Script" path="res://scripts/recipe_parser.gd" id="1_jspdh"]
+[ext_resource type="PackedScene" uid="uid://2ficu8hgfi8v" path="res://scenes/UI/recipe_panel.tscn" id="2_h1rf7"]
 
-[node name="Node" type="Node" node_paths=PackedStringArray("http")]
-script = ExtResource("1_eb7jj")
+[node name="Node" type="Node" node_paths=PackedStringArray("http", "recipe_panel")]
+script = ExtResource("1_jspdh")
 http = NodePath("HTTPRequest")
+recipe_panel = NodePath("RecipePanel")
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
+
+[node name="RecipePanel" parent="." instance=ExtResource("2_h1rf7")]

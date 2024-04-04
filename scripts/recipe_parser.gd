@@ -1,8 +1,11 @@
 extends Node
 
 @export var http: HTTPRequest
+@export var recipe_panel: RecipePanel
 
-var url := "https://l2.dropspoil.com/db/recipe/6887/recipe-angel-slayer.html"
+var base_url := "https://l2.dropspoil.com/"
+var recipe_path := "db/recipe/6887/recipe-angel-slayer.html"
+var url := base_url + recipe_path
 var parser: XMLParser
 var document: XMLDocument
 var recipe: Recipe
@@ -46,8 +49,7 @@ func _on_request_completed(result: int, response_code: int, headers: PackedStrin
 					table_count += 1
 				if table_count == 2:
 					recipe = parse_recipe(n)
-					recipe.print()
-					recipe.print_components()
+					recipe_panel.update_recipe_tree(recipe)
 					return
 
 func parse_recipe(table: XMLNode) -> Recipe:
@@ -67,6 +69,7 @@ func parse_item(item_node: XMLNode, parent: Item = null) -> Item:
 	item.parent = parent
 	var li := item_node.children[0]
 	var img := item_node.children[0].children[0]
+	item.img_url = base_url + img.attributes["src"]
 	var a := item_node.children[0].children[1]
 	var num: int
 	var idx = li.content.find("(")
