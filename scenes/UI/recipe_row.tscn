@@ -1,0 +1,32 @@
+[gd_scene load_steps=2 format=3 uid="uid://cwg0dshywui3x"]
+
+[ext_resource type="Script" path="res://scenes/UI/recipe_row.gd" id="1_dwim5"]
+
+[node name="RecipeRow" type="MarginContainer" node_paths=PackedStringArray("icon_texture", "recipe_name_label", "open_button")]
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 5
+script = ExtResource("1_dwim5")
+icon_texture = NodePath("HBoxContainer/icon")
+recipe_name_label = NodePath("HBoxContainer/name")
+open_button = NodePath("HBoxContainer/Button")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="icon" type="TextureRect" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="name" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Recipe Name"
+
+[node name="Button" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+text = "open"

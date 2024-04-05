@@ -6,6 +6,7 @@ extends Control
 var icon: Texture2D = preload("res://icon.svg")
 
 func update_recipe_tree(recipe: Recipe) -> void:
+	tree.clear()
 	tree.set_column_expand(0, false)
 	tree.set_column_expand(1, true)
 	tree.set_column_expand(2, false)

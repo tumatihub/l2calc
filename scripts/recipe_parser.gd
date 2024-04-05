@@ -1,3 +1,4 @@
+class_name RecipeParser
 extends Node
 
 signal parser_completed
@@ -8,42 +9,17 @@ signal parser_completed
 @export var inventory: Inventory
 
 var base_url := "https://l2.dropspoil.com/"
-var recipe_path := "db/recipe/6887/recipe-angel-slayer.html"
-var url := base_url + recipe_path
-var parser: XMLParser
 var document: XMLDocument
 var recipe: Recipe
 var pending_icon := 0
 
 func _ready() -> void:
-	http.request_completed.connect(_on_request_completed)
-	http.request(url)
-	parser = XMLParser.new()
 	inventory.updated.connect(_on_inventory_updated)
+	http.request_completed.connect(_on_request_completed)
 
-func _on_request_completed_old(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray):
-	parser.open_buffer(body)
-	print(parser)
-	while parser.read() != ERR_FILE_EOF:
-		if parser.get_node_type() == XMLParser.NODE_ELEMENT && parser.get_node_name() == "ul":
-			print("<ul>")
-			var err = parser.read()
-			while (parser.get_node_name() != "ul" || parser.get_node_type() != XMLParser.NODE_ELEMENT_END) && err != ERR_FILE_EOF:
-				if parser.get_node_type() == XMLParser.NODE_ELEMENT:
-					var attributes_dict = {}
-					for idx in range(parser.get_attribute_count()):
-						attributes_dict[parser.get_attribute_name(idx)] = parser.get_attribute_value(idx)
-					print("<"+parser.get_node_name()+"> "+str(attributes_dict))
-				elif parser.get_node_type() == XMLParser.NODE_TEXT:
-					print(parser.get_current_line())
-				err = parser.read()
-			print("</ul>")
-
-func _test(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray):
-	parser.open_buffer(body)
-	while parser.read() != ERR_FILE_EOF:
-		if parser.get_node_type() == XMLParser.NODE_ELEMENT_END:
-			print(parser.get_node_name())
+func request_recipe(recipe_path: String):
+	recipe = null
+	http.request(base_url+recipe_path)
 
 func _on_request_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray):
 	document = XML.parse_buffer(body)

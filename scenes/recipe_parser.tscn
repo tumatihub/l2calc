@@ -1,11 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://cowymypdf1w40"]
+[gd_scene load_steps=6 format=3 uid="uid://cowymypdf1w40"]
 
 [ext_resource type="Script" path="res://scripts/recipe_parser.gd" id="1_jspdh"]
 [ext_resource type="PackedScene" uid="uid://2ficu8hgfi8v" path="res://scenes/UI/recipe_panel.tscn" id="2_h1rf7"]
+[ext_resource type="PackedScene" uid="uid://blaripxv1hnw2" path="res://scenes/UI/search_panel.tscn" id="2_nrmww"]
 [ext_resource type="PackedScene" uid="uid://etsrxtbc0sk0" path="res://scenes/UI/components_table.tscn" id="3_pn3aw"]
 [ext_resource type="PackedScene" uid="uid://bhhtp8rheoba8" path="res://scenes/UI/inventory.tscn" id="4_0namt"]
 
-[node name="Node" type="Node" node_paths=PackedStringArray("http", "recipe_panel", "components_table", "inventory")]
+[node name="RecipeParser" type="Node" node_paths=PackedStringArray("http", "recipe_panel", "components_table", "inventory")]
 script = ExtResource("1_jspdh")
 http = NodePath("HTTPRequest")
 recipe_panel = NodePath("TabContainer/Recipe/RecipePanel")
@@ -21,7 +22,12 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="SearchPanel" parent="TabContainer" node_paths=PackedStringArray("recipe_parser") instance=ExtResource("2_nrmww")]
+layout_mode = 2
+recipe_parser = NodePath("../..")
+
 [node name="Recipe" type="HBoxContainer" parent="TabContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 
