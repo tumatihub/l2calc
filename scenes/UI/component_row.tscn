@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://cet36vvsrjtd6" path="res://icon.svg" id="1_abktk"]
 [ext_resource type="Script" path="res://scenes/UI/component_row.gd" id="1_y0w2f"]
 
-[node name="ComponentRow" type="MarginContainer" node_paths=PackedStringArray("icon_texture", "name_label", "qty_label")]
+[node name="ComponentRow" type="MarginContainer" node_paths=PackedStringArray("icon_texture", "name_label", "qty_label", "add_button")]
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 128.0
@@ -17,6 +17,7 @@ script = ExtResource("1_y0w2f")
 icon_texture = NodePath("VBoxContainer/HBox/Icon")
 name_label = NodePath("VBoxContainer/HBox/Name")
 qty_label = NodePath("VBoxContainer/HBox/Qty")
+add_button = NodePath("VBoxContainer/HBox/Button")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
@@ -43,6 +44,10 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "999"
 horizontal_alignment = 2
+
+[node name="Button" type="Button" parent="VBoxContainer/HBox"]
+layout_mode = 2
+text = "Add to Inventory"
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
 layout_mode = 2

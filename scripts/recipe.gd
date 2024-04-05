@@ -3,36 +3,42 @@ extends RefCounted
 
 var item_name: String
 var info: String
-var itens: Array[Item]
+var items: Array[Item]
 var unique_components: Array[Item]
 
 func add_item(item: Item):
-	itens.append(item)
+	items.append(item)
 
-func update_components():
-	for i in itens:
-		add_component(i)
+func update_components(inventory: Inventory):
+	reset_missing()
+	inventory.reset_used_items()
+	unique_components.clear()
+	for i in items:
+		add_component(i, inventory)
 
-func add_component(item: Item):
+func add_component(item: Item, inventory: Inventory):
 	var found := false
 	for c in unique_components:
 		if c.name == item.name:
+			var missing := calculate_missing(item, inventory)
+			c.missing += missing
 			c.qty += item.get_total_required()
 			found = true
 	if !found:
 		var new_comp = Item.new()
 		new_comp.name = item.name
+		new_comp.missing = calculate_missing(item, inventory)
 		new_comp.qty = item.get_total_required()
 		new_comp.icon = item.icon
 		unique_components.append(new_comp)
 	
 	for child in item.children:
-		add_component(child)
+		add_component(child, inventory)
 
 func print():
 	var level := 0
 	print(item_name + ": " + info)
-	for item in itens:
+	for item in items:
 		print_item(item, level)
 
 func print_item(item: Item, level: int):
@@ -49,3 +55,33 @@ func print_components():
 	print("Components: ")
 	for c in unique_components:
 		print(c.name + " (total: " + str(c.qty) + ")")
+
+func calculate_missing(item: Item, inventory: Inventory) -> int:
+	var missing: int
+	var in_stock := inventory.get_in_stock(item)
+	if item.parent != null:
+		missing = item.qty * item.parent.missing - in_stock
+		if missing < 0:
+			item.missing = 0
+			inventory.return_to_stock(item, abs(missing))
+			return 0
+		else:
+			item.missing = missing
+			return missing
+	missing = item.missing - in_stock
+	if missing < 0:
+		inventory.return_to_stock(item, abs(missing))
+		item.missing = 0
+		return 0
+	else:
+		item.missing = missing
+		return missing
+
+func reset_missing():
+	for i in items:
+		reset_item_missing(i)
+
+func reset_item_missing(item: Item):
+	item.missing = item.get_total_required()
+	for child in item.children:
+		reset_item_missing(child)

@@ -5,6 +5,7 @@ signal parser_completed
 @export var http: HTTPRequest
 @export var recipe_panel: RecipePanel
 @export var components_table: ComponentsTable
+@export var inventory: Inventory
 
 var base_url := "https://l2.dropspoil.com/"
 var recipe_path := "db/recipe/6887/recipe-angel-slayer.html"
@@ -18,6 +19,7 @@ func _ready() -> void:
 	http.request_completed.connect(_on_request_completed)
 	http.request(url)
 	parser = XMLParser.new()
+	inventory.updated.connect(_on_inventory_updated)
 
 func _on_request_completed_old(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray):
 	parser.open_buffer(body)
@@ -55,7 +57,7 @@ func _on_request_completed(result: int, response_code: int, headers: PackedStrin
 					recipe = parse_recipe(n)
 					await parser_completed
 					recipe_panel.update_recipe_tree(recipe)
-					recipe.update_components()
+					recipe.update_components(inventory)
 					components_table.update_table(recipe)
 					return
 
@@ -86,6 +88,7 @@ func parse_item(item_node: XMLNode, parent: Item = null) -> Item:
 		num = int(li.content)
 	item.name = a.content
 	item.qty = num
+	item.missing = item.get_total_required()
 	
 	var http := HTTPRequest.new()
 	add_child(http)
@@ -115,3 +118,7 @@ func _on_request_icon_completed(result: int, response_code: int, headers: Packed
 	if pending_icon == 0:
 		parser_completed.emit()
 	http.queue_free()
+
+func _on_inventory_updated():
+	recipe.update_components(inventory)
+	components_table.update_table(recipe)

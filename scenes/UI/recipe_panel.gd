@@ -18,7 +18,7 @@ func update_recipe_tree(recipe: Recipe) -> void:
 	var root = tree.create_item()
 	tree.hide_root = true
 	
-	for item in recipe.itens:
+	for item in recipe.items:
 		add_item(item, root)
 		
 
