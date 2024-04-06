@@ -7,8 +7,6 @@ extends Control
 
 var item: Item
 var inventory: Inventory
-var prev: InventoryRow
-var next: InventoryRow
 
 func _on_line_edit_text_submitted(new_text: String) -> void:
 	update_stock(new_text)
@@ -18,8 +16,6 @@ func _on_line_edit_focus_exited() -> void:
 
 func update_stock(new_text: String):
 	item.qty = int(new_text)
-	inventory.update()
 
-func change_focus():
-	if next != null:
-		next.stock_input.grab_focus()
+func _on_button_pressed() -> void:
+	inventory.remove_item(item)

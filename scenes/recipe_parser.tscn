@@ -22,7 +22,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="SearchPanel" parent="TabContainer" node_paths=PackedStringArray("recipe_parser") instance=ExtResource("2_nrmww")]
+[node name="Search" parent="TabContainer" node_paths=PackedStringArray("recipe_parser") instance=ExtResource("2_nrmww")]
 layout_mode = 2
 recipe_parser = NodePath("../..")
 
@@ -41,3 +41,6 @@ inventory = NodePath("../../Inventory")
 [node name="Inventory" parent="TabContainer" instance=ExtResource("4_0namt")]
 visible = false
 layout_mode = 2
+
+[connection signal="tab_changed" from="TabContainer" to="TabContainer/Inventory" method="_on_tab_container_tab_changed"]
+[connection signal="recipe_opened" from="TabContainer/Search" to="TabContainer" method="select_next_available"]

@@ -4,9 +4,8 @@ extends Control
 @export var tree: Tree
 
 var icon: Texture2D = preload("res://icon.svg")
-
-func update_recipe_tree(recipe: Recipe) -> void:
-	tree.clear()
+var root: TreeItem
+func _ready() -> void:
 	tree.set_column_expand(0, false)
 	tree.set_column_expand(1, true)
 	tree.set_column_expand(2, false)
@@ -16,12 +15,17 @@ func update_recipe_tree(recipe: Recipe) -> void:
 	tree.set_column_title_alignment(1, HORIZONTAL_ALIGNMENT_LEFT)
 	tree.set_column_title(2, "Total Required")
 	tree.set_column_title_alignment(2, HORIZONTAL_ALIGNMENT_RIGHT)
-	var root = tree.create_item()
+	root = tree.create_item()
 	tree.hide_root = true
-	
+
+func update_recipe_tree(recipe: Recipe) -> void:
+	clear()
 	for item in recipe.items:
 		add_item(item, root)
-		
+
+func clear():
+	tree.clear()
+	root = tree.create_item()
 
 func add_item(item: Item, tree_parent: TreeItem):
 	var tree_item = tree.create_item(tree_parent)

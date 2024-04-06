@@ -46,8 +46,9 @@ text = "999"
 horizontal_alignment = 2
 
 [node name="Button" type="Button" parent="VBoxContainer/HBox"]
+custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
-text = "Add to Inventory"
+text = "+"
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
 layout_mode = 2

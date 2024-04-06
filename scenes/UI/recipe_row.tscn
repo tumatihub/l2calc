@@ -11,22 +11,28 @@ theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 5
 script = ExtResource("1_dwim5")
-icon_texture = NodePath("HBoxContainer/icon")
-recipe_name_label = NodePath("HBoxContainer/name")
-open_button = NodePath("HBoxContainer/Button")
+icon_texture = NodePath("VBoxContainer/HBoxContainer/icon")
+recipe_name_label = NodePath("VBoxContainer/HBoxContainer/name")
+open_button = NodePath("VBoxContainer/HBoxContainer/Button")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="icon" type="TextureRect" parent="HBoxContainer"]
+[node name="icon" type="TextureRect" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="name" type="Label" parent="HBoxContainer"]
+[node name="name" type="Label" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Recipe Name"
 
-[node name="Button" type="Button" parent="HBoxContainer"]
+[node name="Button" type="Button" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "open"
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2

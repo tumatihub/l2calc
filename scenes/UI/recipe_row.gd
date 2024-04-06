@@ -1,6 +1,8 @@
 class_name RecipeRow
 extends MarginContainer
 
+signal recipe_opened
+
 @export var icon_texture: TextureRect
 @export var recipe_name_label: Label
 @export var open_button: Button
@@ -30,3 +32,4 @@ func _on_request_icon_completed(result: int, response_code: int, headers: Packed
 
 func _on_button_pressed(recipe_path: String, recipe_parser: RecipeParser) -> void:
 	recipe_parser.request_recipe(recipe_path)
+	recipe_opened.emit()

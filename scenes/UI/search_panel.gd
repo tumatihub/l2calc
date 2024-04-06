@@ -1,12 +1,17 @@
 class_name SearchPanel
 extends PanelContainer
 
+signal recipe_opened
+
 @export var recipe_parser: RecipeParser
 @export var input: LineEdit
 @export var recipe_row_scene: PackedScene
 @export var vbox: VBoxContainer
 
 var base_url := "https://l2.dropspoil.com/"
+
+func _ready() -> void:
+	input.grab_focus()
 
 func _on_button_pressed() -> void:
 	if input.text.is_empty():
@@ -51,3 +56,12 @@ func create_recipe_row(recipe_name: String, icon_path: String, recipe_path: Stri
 	var row := recipe_row_scene.instantiate() as RecipeRow
 	vbox.add_child(row)
 	row.create_row(recipe_name, icon_path, recipe_path, recipe_parser)
+	row.recipe_opened.connect(_on_recipe_opened)
+
+func _on_line_edit_text_submitted(new_text: String) -> void:
+	if input.text.is_empty():
+		return
+	search(input.text)
+
+func _on_recipe_opened():
+	recipe_opened.emit()

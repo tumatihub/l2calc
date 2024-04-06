@@ -19,6 +19,8 @@ func _ready() -> void:
 
 func request_recipe(recipe_path: String):
 	recipe = null
+	recipe_panel.clear()
+	components_table.clear()
 	http.request(base_url+recipe_path)
 
 func _on_request_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray):

@@ -25,12 +25,21 @@ func add_item(item: Item):
 	new_item.icon = item.icon
 	new_item.img_url = item.img_url
 	items.append(new_item)
+	sort()
 	update()
+
+func remove_item(item: Item):
+	for i in items:
+		if i.name == item.name:
+			items.erase(i)
+			update()
+
+func sort():
+	items.sort_custom(func(a:Item,b:Item): return a.name < b.name)
 
 func update():
 	for child in vbox.get_children():
 		child.queue_free()
-	var prev: InventoryRow
 	for i in items:
 		var row := inventory_row_scene.instantiate() as InventoryRow
 		vbox.add_child.call_deferred(row)
@@ -39,10 +48,6 @@ func update():
 		row.stock_input.text = str(i.qty)
 		row.inventory = self
 		row.item = i
-		if prev != null:
-			row.prev = prev
-			prev.next = row
-			prev = row
 	updated.emit()
 	save_inventory()
 
@@ -120,3 +125,6 @@ func create_dict_from_item(item: Item):
 	dict["qty"] = item.qty
 	dict["img_url"] = item.img_url
 	return dict
+
+func _on_tab_container_tab_changed(tab: int) -> void:
+	update()
