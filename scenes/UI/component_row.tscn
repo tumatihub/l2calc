@@ -1,9 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://cl45ewwv8qlpe"]
+[gd_scene load_steps=4 format=3 uid="uid://cl45ewwv8qlpe"]
 
 [ext_resource type="Texture2D" uid="uid://cet36vvsrjtd6" path="res://icon.svg" id="1_abktk"]
 [ext_resource type="Script" path="res://scenes/UI/component_row.gd" id="1_y0w2f"]
 
-[node name="ComponentRow" type="MarginContainer" node_paths=PackedStringArray("icon_texture", "name_label", "qty_label", "add_button")]
+[sub_resource type="LabelSettings" id="LabelSettings_hx4bq"]
+font_color = Color(1, 0.682353, 0.196078, 1)
+
+[node name="ComponentRow" type="MarginContainer" node_paths=PackedStringArray("icon_texture", "name_label", "cost_label", "qty_label", "add_button", "hbox")]
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 128.0
@@ -16,8 +19,11 @@ theme_override_constants/margin_bottom = 5
 script = ExtResource("1_y0w2f")
 icon_texture = NodePath("VBoxContainer/HBox/Icon")
 name_label = NodePath("VBoxContainer/HBox/Name")
+cost_label = NodePath("VBoxContainer/HBox/Cost")
 qty_label = NodePath("VBoxContainer/HBox/Qty")
 add_button = NodePath("VBoxContainer/HBox/Button")
+fade_color = Color(0.67451, 0.67451, 0.67451, 0.709804)
+hbox = NodePath("VBoxContainer/HBox")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
@@ -37,6 +43,14 @@ custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Item Name"
+
+[node name="Cost" type="Label" parent="VBoxContainer/HBox"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "999 adenas"
+label_settings = SubResource("LabelSettings_hx4bq")
+horizontal_alignment = 2
 
 [node name="Qty" type="Label" parent="VBoxContainer/HBox"]
 custom_minimum_size = Vector2(100, 0)

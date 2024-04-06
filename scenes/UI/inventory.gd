@@ -48,6 +48,7 @@ func update():
 		row.stock_input.text = str(i.qty)
 		row.inventory = self
 		row.item = i
+		row.price_input.text = str(i.price)
 	updated.emit()
 	save_inventory()
 
@@ -70,6 +71,12 @@ func return_to_stock(item: Item, qty: int):
 		if i.name == item.name:
 			i.used -= qty
 
+func get_price(item: Item) -> int:
+	for i in items:
+		if i.name == item.name:
+			return i.price
+	return 0
+
 func save_inventory():
 	var save_file = FileAccess.open(save_file_path, FileAccess.WRITE)
 	for i in items:
@@ -83,16 +90,18 @@ func load_inventory():
 	var save_file = FileAccess.open(save_file_path, FileAccess.READ)
 	while save_file.get_position() < save_file.get_length():
 		var json_string = save_file.get_line()
-		var json = JSON.new()
+		var json := JSON.new()
 		var parse_result = json.parse(json_string)
 		if not parse_result == OK:
 			print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
 			continue
-		var dict = json.get_data()
+		var dict: Dictionary
+		dict = json.get_data()
 		var item = Item.new()
-		item.name = dict["name"]
-		item.qty = dict["qty"]
-		item.img_url = dict["img_url"]
+		item.name = dict.get("name", "")
+		item.qty = dict.get("qty", "")
+		item.img_url = dict.get("img_url", "")
+		item.price = dict.get("price", "")
 		items.append(item)
 		
 		var http := HTTPRequest.new()
@@ -124,6 +133,7 @@ func create_dict_from_item(item: Item):
 	dict["name"] = item.name
 	dict["qty"] = item.qty
 	dict["img_url"] = item.img_url
+	dict["price"] = item.price
 	return dict
 
 func _on_tab_container_tab_changed(tab: int) -> void:

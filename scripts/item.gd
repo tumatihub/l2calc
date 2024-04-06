@@ -12,6 +12,7 @@ var used: int
 var can_use: bool:
 	get:
 		return qty > used
+var price: int
 
 func get_total_required() -> int:
 	if parent == null:

@@ -23,6 +23,7 @@ func add_component(item: Item, inventory: Inventory):
 			var missing := calculate_missing(item, inventory)
 			c.missing += missing
 			c.qty += item.get_total_required()
+			c.price = inventory.get_price(item)
 			found = true
 	if !found:
 		var new_comp = Item.new()
@@ -31,6 +32,7 @@ func add_component(item: Item, inventory: Inventory):
 		new_comp.qty = item.get_total_required()
 		new_comp.icon = item.icon
 		new_comp.img_url = item.img_url
+		new_comp.price = inventory.get_price(item)
 		unique_components.append(new_comp)
 	
 	for child in item.children:

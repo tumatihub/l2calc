@@ -4,6 +4,7 @@ extends Control
 @export var icon_texture: TextureRect
 @export var name_label: Label
 @export var stock_input: LineEdit
+@export var price_input: LineEdit
 
 var item: Item
 var inventory: Inventory
@@ -19,3 +20,12 @@ func update_stock(new_text: String):
 
 func _on_button_pressed() -> void:
 	inventory.remove_item(item)
+
+func update_price(new_text: String):
+	item.price = int(new_text)
+
+func _on_price_text_submitted(new_text: String) -> void:
+	update_price(new_text)
+
+func _on_price_focus_exited() -> void:
+	update_price(price_input.text)
