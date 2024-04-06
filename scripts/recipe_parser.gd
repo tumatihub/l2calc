@@ -96,5 +96,7 @@ func _on_request_icon_completed(result: int, response_code: int, headers: Packed
 	http.queue_free()
 
 func _on_inventory_updated():
+	if recipe == null:
+		return
 	recipe.update_components(inventory)
 	components_table.update_table(recipe)

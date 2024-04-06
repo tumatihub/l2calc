@@ -30,6 +30,7 @@ func add_component(item: Item, inventory: Inventory):
 		new_comp.missing = calculate_missing(item, inventory)
 		new_comp.qty = item.get_total_required()
 		new_comp.icon = item.icon
+		new_comp.img_url = item.img_url
 		unique_components.append(new_comp)
 	
 	for child in item.children:
