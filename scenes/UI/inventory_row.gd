@@ -2,7 +2,7 @@ class_name InventoryRow
 extends Control
 
 @export var icon_texture: TextureRect
-@export var name_label: Label
+@export var name_link: LinkButton
 @export var stock_input: LineEdit
 @export var price_input: LineEdit
 

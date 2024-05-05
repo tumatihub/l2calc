@@ -6,7 +6,7 @@
 [sub_resource type="LabelSettings" id="LabelSettings_hx4bq"]
 font_color = Color(1, 0.682353, 0.196078, 1)
 
-[node name="ComponentRow" type="MarginContainer" node_paths=PackedStringArray("icon_texture", "name_label", "cost_label", "qty_label", "add_button", "hbox")]
+[node name="ComponentRow" type="MarginContainer" node_paths=PackedStringArray("icon_texture", "name_link", "cost_label", "qty_label", "add_button", "hbox")]
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 128.0
@@ -18,7 +18,7 @@ theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 5
 script = ExtResource("1_y0w2f")
 icon_texture = NodePath("VBoxContainer/HBox/Icon")
-name_label = NodePath("VBoxContainer/HBox/Name")
+name_link = NodePath("VBoxContainer/HBox/Name")
 cost_label = NodePath("VBoxContainer/HBox/Cost")
 qty_label = NodePath("VBoxContainer/HBox/Qty")
 add_button = NodePath("VBoxContainer/HBox/Button")
@@ -37,11 +37,12 @@ layout_mode = 2
 texture = ExtResource("1_abktk")
 stretch_mode = 4
 
-[node name="Name" type="Label" parent="VBoxContainer/HBox"]
+[node name="Name" type="LinkButton" parent="VBoxContainer/HBox"]
 clip_contents = true
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 4
 text = "Item Name"
 
 [node name="Cost" type="Label" parent="VBoxContainer/HBox"]
@@ -66,3 +67,5 @@ text = "+"
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
 layout_mode = 2
+
+[connection signal="pressed" from="VBoxContainer/HBox/Name" to="." method="_on_name_pressed"]

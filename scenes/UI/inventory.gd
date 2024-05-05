@@ -24,6 +24,7 @@ func add_item(item: Item):
 	new_item.qty = 0
 	new_item.icon = item.icon
 	new_item.img_url = item.img_url
+	new_item.path = item.path
 	items.append(new_item)
 	sort()
 	update()
@@ -44,7 +45,8 @@ func update():
 		var row := inventory_row_scene.instantiate() as InventoryRow
 		vbox.add_child.call_deferred(row)
 		row.icon_texture.texture = i.icon
-		row.name_label.text = i.name
+		row.name_link.text = i.name
+		row.name_link.uri = base_url + i.path
 		row.stock_input.text = str(i.qty)
 		row.inventory = self
 		row.item = i
@@ -102,6 +104,7 @@ func load_inventory():
 		item.qty = dict.get("qty", "")
 		item.img_url = dict.get("img_url", "")
 		item.price = dict.get("price", "")
+		item.path = dict.get("path", "")
 		items.append(item)
 		
 		var http := HTTPRequest.new()
@@ -134,6 +137,7 @@ func create_dict_from_item(item: Item):
 	dict["qty"] = item.qty
 	dict["img_url"] = item.img_url
 	dict["price"] = item.price
+	dict["path"] = item.path
 	return dict
 
 func _on_tab_container_tab_changed(tab: int) -> void:

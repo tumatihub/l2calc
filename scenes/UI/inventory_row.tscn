@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scenes/UI/inventory_row.gd" id="1_nh5uk"]
 [ext_resource type="Texture2D" uid="uid://cet36vvsrjtd6" path="res://icon.svg" id="1_stsbv"]
 
-[node name="InventoryRow" type="MarginContainer" node_paths=PackedStringArray("icon_texture", "name_label", "stock_input", "price_input")]
+[node name="InventoryRow" type="MarginContainer" node_paths=PackedStringArray("icon_texture", "name_link", "stock_input", "price_input")]
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 138.0
@@ -14,7 +14,7 @@ theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 5
 script = ExtResource("1_nh5uk")
 icon_texture = NodePath("VBoxContainer/HBoxContainer/icon")
-name_label = NodePath("VBoxContainer/HBoxContainer/name")
+name_link = NodePath("VBoxContainer/HBoxContainer/name")
 stock_input = NodePath("VBoxContainer/HBoxContainer/qty")
 price_input = NodePath("VBoxContainer/HBoxContainer/price")
 
@@ -29,9 +29,10 @@ theme_override_constants/separation = 10
 layout_mode = 2
 texture = ExtResource("1_stsbv")
 
-[node name="name" type="Label" parent="VBoxContainer/HBoxContainer"]
+[node name="name" type="LinkButton" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 4
 text = "Item Name"
 
 [node name="PriceLabel" type="Label" parent="VBoxContainer/HBoxContainer"]

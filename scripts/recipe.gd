@@ -33,6 +33,7 @@ func add_component(item: Item, inventory: Inventory):
 		new_comp.icon = item.icon
 		new_comp.img_url = item.img_url
 		new_comp.price = inventory.get_price(item)
+		new_comp.path = item.path
 		unique_components.append(new_comp)
 	
 	for child in item.children:

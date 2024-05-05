@@ -67,6 +67,7 @@ func parse_item(item_node: XMLNode, parent: Item = null) -> Item:
 	item.name = a.content
 	item.qty = num
 	item.missing = item.get_total_required()
+	item.path = a.attributes["href"]
 	
 	var http := HTTPRequest.new()
 	add_child(http)
